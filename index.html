@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <meta charset="UTF-8">
+  <title>Book Library</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-weight: bold;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      height: 80px;
+      background-color: #120e83;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 1000;
+    }
+
+    .logo {
+      position: absolute;
+      top: 18px;
+      height: 120px;
+      width: auto;
+      object-fit: contain;
+      cursor: pointer;
+      border-radius: 100%;
+      border: 4px solid #11640b;
+    }
+
+    .navlinks {
+      display: flex;
+      gap: 20px;
+      margin-left: auto;
+    }
+
+    .navlinks a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      transition: color 0.3s;
+    }
+
+    .navlinks a:hover {
+      color: #ffcc00;
+    }
+
+    .search {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 50px auto;
+      width: 400px;
+      height: 50px;
+      background-color: white;
+      border-radius: 30px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      position: relative;
+    }
+
+    .search input {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 30px;
+      padding: 0 20px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    .search::before {
+      position: absolute;
+      left: 20px;
+      color: #888;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .search input:focus+ ::before,
+    .search input:not(:placeholder-shown)+ ::before {
+      opacity: 0;
+    }
+
+    .bird-img {
+      position: absolute;
+      top: 100px;
+      right: 20px;
+      height: 150px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 30px;
+      padding: 40px;
+      padding-left: 100px;
+      width: 100%;
+      left: 20 px;
+      justify-items: start;
+      justify-content: start;
+    }
+
+    .book-item {
+      background-color: rgb(235, 213, 213);
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 50% / 50%;
+
+    }
+
+    .book-item img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .book-item h3 {
+      margin-top: 10px;
+    }
+
+    .bookname {
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    .writer {
+      font-size: 16px;
+      font-weight: 300;
+    }
+
+    .language {
+      font-size: 16px;
+      font-weight: 300;
+      color: #888;
+    }
+
+    .lionimage {
+      position: relative;
+    }
+
+    .lion-img {
+      position: absolute;
+      top: 40px;
+      left: 20px;
+      height: 210px;
+      width: auto;
+      cursor: pointer;
+    }
+
+    .load-more-container {
+      text-align: center;
+      margin: 30px 0;
+    }
+
+    .load-more {
+      display: inline-block;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 18px;
+      color: #333;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .load-more:hover {
+      color: #dfd930;
+    }
+
+    .footer {
+      background-color: #215b3c;
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      top: 220px;
+      bottom: 0;
+      width: 100%;
+      font-family: sans-serif;
+    }
+
+    .footer {
+      background-color: #225B3A;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+      border-top: 2px solid #1f1f1f;
+      color: white;
+      font-family: sans-serif;
+      position: relative;
+    }
+
+    .footer-left {
+      display: flex;
+      gap: 15px;
+    }
+
+    .footer-icon {
+      background-color: white;
+      color: #225B3A;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .footer-icon:hover {
+      background-color: #ddd;
+    }
+
+    .footer-right {
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <img src="projectlogo.png" alt="Logo" class="logo">
+    <div class="navlinks">
+      <a href="#">Books</a>
+      <a href="#">Catalogue</a>
+      <a href="#">Zone</a>
+      <a href="#">Login</a>
+      <a href="#">Signup</a>
+    </div>
+  </div>
+
+  <div class="search">
+    <input type="text" placeholder="Search...">
+
+  </div>
+
+  <img src="bird.png" class="bird-img" alt="Bird">
+
+  <div class="grid">
+    <div class="book-item">
+      <img src="sachin.jpg" alt="Book 1">
+      <h3 class="bookname">Sachin Is God</h3>
+      <p class="writer">Vijay Santhanam</p>
+      <p class="language">English</p>
+    </div>
+    <div class="book-item">
+      <img src="virat.jpg" alt="Book 2">
+      <h3 class="bookname">Virat Kohli</h3>
+      <p class="writer">Sahil Desai</p>
+      <p class="language">Hindi</p>
+    </div>
+    <div class="book-item">
+      <img src="dhoni.jpg" alt="Book 3">
+      <h3 class="bookname">The Dhoni Touch</h3>
+      <p class="writer">Ravi Sastri</p>
+      <p class="language">English</p>
+    </div>
+    <div class="book-item">
+      <img src="raina.jpg" alt="Book 4">
+      <h3 class="bookname">Suresh Raina</h3>
+      <p class="writer">Bharat Sundaresan</p>
+      <p class="language">English</p>
+    </div>
+    <div class="book-item">
+      <img src="smriti.jpg" alt="Book 5">
+      <h3 class="bookname">Free Hit</h3>
+      <p class="writer">Suprita Das</p>
+      <p class="language">Bengali</p>
+    </div>
+    <div class="book-item">
+      <img src="sourav ganguly.jpg" alt="Book 6">
+      <h3 class="bookname">Sourav Ganguly</h3>
+      <p class="writer">Gautam Bhattacharia</p>
+      <p class="language">Bengali</p>
+    </div>
+    <div class="book-item">
+      <img src="ponting.jpg" alt="Book 7">
+      <h3 class="bookname">Ponting</h3>
+      <p class="writer">Ricky Ponting</p>
+      <p class="language">English</p>
+    </div>
+    <div class="book-item">
+      <img src="bazzball.jpeg" alt="Book 8">
+      <h3 class="bookname">Bazball</h3>
+      <p class="writer">Lawrence Booth</p>
+      <p class="language">English</p>
+    </div>
+    <div class="book-item">
+      <img src="ravi sastri.jpg" alt="Book 9">
+      <h3 class="bookname">Star Gazing</h3>
+      <p class="writer">Ravi Satri</p>
+      <p class="language">English</p>
+    </div>
+    <div class="book-item">
+      <img src="soaib aktar.jpg" alt="Book 10">
+      <h3 class="bookname">Soaib Akthar</h3>
+      <p class="writer">Soaib Akthar</p>
+      <p class="language">English</p>
+    </div>
+    <div class="book-item">
+      <img src="wasim akram.jpg" alt="Book 11">
+      <h3 class="bookname">Sultan</h3>
+      <p class="writer">Wasim Akram</p>
+      <p class="language">English</p>
+    </div>
+    <div class="book-item">
+      <img src="1971.jpg" alt="Book 12">
+      <h3 class="bookname">1971</h3>
+      <p class="writer">Boria Majumdar</p>
+      <p class="language">English</p>
+    </div>
+    <div class="book-item">
+      <img src="sachin2.webp" alt="Book 13">
+      <h3 class="Bookname">Playing It My Way</h3>
+      <P class="writer">Sachin Tendulkar</P>
+      <p class="language">English</p>
+    </div>
+    <div class="book-item">
+      <img src="aus.webp" alt="Book 14">
+      <h3 class="bookname">The Immortals</h3>
+      <p class="writer">Liam Hauser</p>
+      <p class="language">English</p>
+    </div>
+    <div class="book-item">
+      <img src="hayden.jpg" alt="Book 15">
+      <h3 class="bookname">Mathew Hayden</h3>
+      <p class="writer">Mathew Hayden</p>
+      <p class="language">English</p>
+    </div>
+  </div>
+  <div class="lionimage">
+      <img src="lion.png" alt="Lion" class="lion-img">
+    </a>
+    <div class="load-more-container">
+      <a href="#" class="load-more">Load More</a>
+    </div>
+    <footer class="footer">
+      <div class="footer-left">
+        <div class="footer-icon"><i class="fab fa-facebook-f"></i></div>
+        <div class="footer-icon"><i class="fab fa-x"></i></div>
+        <div class="footer-icon"><i class="fab fa-linkedin-in"></i></div>
+        <div class="footer-icon"><i class="fab fa-instagram"></i></div>
+      </div>
+      <div class="footer-right">
+        © Copyright 2024 Mayabious Art
+      </div>
+    </footer>
+</body>
+</html>
